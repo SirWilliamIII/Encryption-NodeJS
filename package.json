@@ -1,0 +1,26 @@
+{
+  "name": "encryption",
+  "version": "1.0.0",
+  "description": "",
+  "main": "encryption.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SirWilliamIII/Encryption-NodeJS.git"
+  },
+  "author": "Will Carpenter <willcarpenteriii@gmail.com> (http://sirwilliamthethird.com/)",
+  "license": "ISC",
+  "dependencies": {
+    "crypto-js": "^3.1.5",
+    "node-persist": "0.0.6",
+    "yargs": "^3.15.0"
+  },
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/SirWilliamIII/Encryption-NodeJS/issues"
+  },
+  "homepage": "https://github.com/SirWilliamIII/Encryption-NodeJS#readme"
+}
