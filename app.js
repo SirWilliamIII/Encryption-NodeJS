@@ -3,7 +3,6 @@ var crypto = require( 'crypto-js' );
 
 storage.initSync();
 
-
 var argv = require( 'yargs' )
 	.command( 'create', 'Create a new account', function( yargs ) {
 		yargs.options( {
@@ -73,19 +72,7 @@ function getAccount( accountName, masterPassword ) {
 	} );
 	return( matchedAccount );
 }
-/* Create 2 new functions. 
-                 getAccounts(masterPassword){
-                 	if( typeof accounts === 'undefined' ) {
-	                 	accounts = [];
-	                }
-                      use getItemSync to fetch accounts
-                      decrypt
-                      return accounts array
-                                          
-    saveAccounts(accounts, masterPassword){
-        encrypt accounts, 
-        use setItemSync to save encrypted accounts
-        return accounts array   */
+
 function getAccounts( masterPassword ) {
 	var encryptedAccount = storage.getItemSync( 'accounts' );
 	var accounts = [];
@@ -97,9 +84,6 @@ function getAccounts( masterPassword ) {
 		 */
 		var accounts = JSON.parse( bytes.toString( crypto.enc.Utf8 ) );
 	}
-
-
-
 	return accounts;
 }
 
@@ -111,20 +95,29 @@ function saveAccounts( accounts, masterPassword ) {
 }
 
 if( command === 'create' ) {
-	var createdAccount = createAccount( {
-		name: argv.name,
-		username: argv.username,
-		password: argv.password
-	}, argv.masterPassword );
-	console.log( 'Account created!' )
-	console.log( createdAccount );
-} else if( command === 'get' ) {
-	var fetchedAccount = getAccount( argv.name, argv.masterPassword );
-
-	if( typeof fetchedAccount === 'undefined' ) {
-		console.log( 'Account not found!' )
-	} else {
-		console.log( 'Account found!' );
-		console.log( fetchedAccount );
+	try {
+		var createdAccount = createAccount( {
+			name: argv.name,
+			username: argv.username,
+			password: argv.password
+		}, argv.masterPassword );
+		console.log( 'Account created!' )
+		console.log( createdAccount );
+	} catch( e ) {
+		console.log( 'There was an error creating your account' );
 	}
+
+} else if( command === 'get' ) {
+	try {
+		var fetchedAccount = getAccount( argv.name, argv.masterPassword );
+		if( typeof fetchedAccount === 'undefined' ) {
+			console.log( 'Account not found!' )
+		} else {
+			console.log( 'Account found!' );
+			console.log( fetchedAccount );
+		}
+	} catch( e ) {
+		console.log( 'There was a problem retrieving your account.' )
+	}
+
 }
