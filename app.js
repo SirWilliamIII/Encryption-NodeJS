@@ -1,11 +1,11 @@
 var storage = require( 'node-persist' );
-
 var crypto = require( 'crypto-js' );
 
 storage.initSync();
 
 
-var argv = require( 'yargs' ).command( 'create', 'Create a new account', function( yargs ) {
+var argv = require( 'yargs' )
+	.command( 'create', 'Create a new account', function( yargs ) {
 		yargs.options( {
 			name: {
 				demand: true,
@@ -27,7 +27,7 @@ var argv = require( 'yargs' ).command( 'create', 'Create a new account', functio
 			},
 			masterPassword: {
 				demand: true,
-				alias: 'p',
+				alias: 'm',
 				description: 'Master password',
 				type: 'string'
 			}
@@ -90,7 +90,7 @@ function getAccounts( masterPassword ) {
 	var encryptedAccount = storage.getItemSync( 'accounts' );
 	var accounts = [];
 
-	if( typeof encryptedAccount === 'undefined' ) {
+	if( typeof encryptedAccount !== 'undefined' ) {
 		var bytes = crypto.AES.decrypt( encryptedAccount, masterPassword );
 		/* 
 		 *   Our secret message in this case would be 'encryptedAccount' and the secret key is the 'masterPassword'.
@@ -102,9 +102,6 @@ function getAccounts( masterPassword ) {
 
 	return accounts;
 }
-
-
-
 
 function saveAccounts( accounts, masterPassword ) {
 	var encryptedAccounts = crypto.AES.encrypt( JSON.stringify( accounts ), masterPassword );
